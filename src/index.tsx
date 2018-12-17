@@ -6,7 +6,7 @@ import {
   WizardContext,
 } from 'react-albus'
 import { Formik, FormikActions } from 'formik'
-import { FormikWizardProps, FormikWizardState, Step, Values, WizardOnNext } from './types'
+import { FormikWizardProps, FormikWizardState, Step, Values, WizardOnAction } from './types'
 import { getInitialValues } from './helpers'
 
 class FormikWizard extends React.PureComponent<FormikWizardProps, FormikWizardState> {
@@ -19,20 +19,20 @@ class FormikWizard extends React.PureComponent<FormikWizardProps, FormikWizardSt
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.onNext = this.onNext.bind(this)
+    this.onAction = this.onAction.bind(this)
     this.renderStep = this.renderStep.bind(this)
     this.renderStepComponent = this.renderStepComponent.bind(this)
   }
 
-  async onNext(stepValues: Values, stepFormActions: FormikActions<Values>, wizard: WizardContext, onNext?: WizardOnNext) {
+  async onAction(stepValues: Values, stepFormActions: FormikActions<Values>, wizard: WizardContext, onAction?: WizardOnAction) {
     let status = undefined
 
     try {
       if(wizard.steps[wizard.steps.length - 1].id === wizard.step.id) {
         status = await this.props.onSubmit(this.state.values)
       } else {
-        if(onNext) {
-          status = await onNext(stepValues, this.state.values)
+        if(onAction) {
+          status = await onAction(stepValues, this.state.values)
         }
 
         wizard.next()
@@ -48,14 +48,14 @@ class FormikWizard extends React.PureComponent<FormikWizardProps, FormikWizardSt
     stepFormActions.setSubmitting(false)
   }
 
-  handleSubmit(stepValues: Values, stepFormActions: FormikActions<Values>, wizard: WizardContext, onNext?: WizardOnNext) {
+  handleSubmit(stepValues: Values, stepFormActions: FormikActions<Values>, wizard: WizardContext, onAction?: WizardOnAction) {
     this.setState(({ values }) => ({
       status: undefined,
       values: {
         ...values,
         [wizard.step.id]: stepValues,
       },
-    }), () => this.onNext(stepValues, stepFormActions, wizard, onNext))
+    }), () => this.onAction(stepValues, stepFormActions, wizard, onAction))
   }
 
   getStepInitialValues(step: Step, stepId: Step["id"]) {
@@ -73,7 +73,7 @@ class FormikWizard extends React.PureComponent<FormikWizardProps, FormikWizardSt
         initialValues={this.getStepInitialValues(step, wizard.step.id)}
         validationSchema={step.validationSchema}
         onSubmit={(stepValues, stepFormActions) => {
-          this.handleSubmit(stepValues, stepFormActions, wizard, step.onNext)
+          this.handleSubmit(stepValues, stepFormActions, wizard, step.onAction)
         }}
         render={(formikProps) => (
           <form onSubmit={formikProps.handleSubmit}>
@@ -91,6 +91,7 @@ class FormikWizard extends React.PureComponent<FormikWizardProps, FormikWizardSt
                 },
 
                 currentStep: wizard.step.id,
+                actionLabel: step.actionLabel,
                 isLastStep: wizard.step.id === wizard.steps[wizard.steps.length - 1].id,
                 isSubmitting: formikProps.isSubmitting,
               },

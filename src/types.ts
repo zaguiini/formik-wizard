@@ -5,15 +5,16 @@ export interface Values {
   [key: string]: any,
 }
 
-export type WizardOnNext = (stepValues: Values, formValues: Values) => Promise<any>
+export type WizardOnAction = (stepValues: Values, formValues: Values) => Promise<any>
 
 export interface Step {
   id: string,
   component: React.SFC<any>,
   validationSchema?: Schema<any>,
   initialValues: Values,
-  onNext?: WizardOnNext,
+  onAction?: WizardOnAction,
   keepValues?: boolean,
+  actionLabel?: string,
 }
 
 export interface WizardActions {
