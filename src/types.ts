@@ -38,6 +38,7 @@ export interface FormikWizardProps {
   render: React.SFC<WrapperProps>,
   onSubmit(values: Values): void,
   formikProps?: FormikProps<Values>,
+  Form: any,
 }
 
 export interface FormikWizardState {

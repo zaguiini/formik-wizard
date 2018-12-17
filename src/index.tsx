@@ -75,29 +75,28 @@ class FormikWizard extends React.PureComponent<FormikWizardProps, FormikWizardSt
         onSubmit={(stepValues, stepFormActions) => {
           this.handleSubmit(stepValues, stepFormActions, wizard, step.onAction)
         }}
-        render={(formikProps) => (
-          <form onSubmit={formikProps.handleSubmit}>
-            {React.createElement(this.props.render, {
-              ...this.state,
-              Step: step.component,
-              actions: {
-                canGoBack: wizard.step.id !== wizard.steps[0].id,
-                goToPreviousStep: () => {
-                  wizard.previous()
+        render={(formikProps) => React.createElement(this.props.Form || 'form', {
+          onSubmit: formikProps.handleSubmit,
+          children: React.createElement(this.props.render, {
+            ...this.state,
+            Step: step.component,
+            actions: {
+              canGoBack: wizard.step.id !== wizard.steps[0].id,
+              goToPreviousStep: () => {
+                wizard.previous()
 
-                  this.setState({
-                    status: undefined,
-                  })
-                },
-
-                currentStep: wizard.step.id,
-                actionLabel: step.actionLabel,
-                isLastStep: wizard.step.id === wizard.steps[wizard.steps.length - 1].id,
-                isSubmitting: formikProps.isSubmitting,
+                this.setState({
+                  status: undefined,
+                })
               },
-            })}
-          </form>
-        )}
+
+              currentStep: wizard.step.id,
+              actionLabel: step.actionLabel,
+              isLastStep: wizard.step.id === wizard.steps[wizard.steps.length - 1].id,
+              isSubmitting: formikProps.isSubmitting,
+            },
+          })
+        })}
       />
     )
   }
