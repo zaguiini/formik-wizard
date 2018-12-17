@@ -1,0 +1,31 @@
+{
+  "name": "formik-wizard",
+  "version": "1.0.0",
+  "description": "A multi-step form component powered by formik and react-albus",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/zaguiini/formik-wizard",
+  "author": "Luis Felipe Zaguini",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "prepublish": "yarn build"
+  },
+  "devDependencies": {
+    "@types/react": "^16.7.17",
+    "@types/react-albus": "^2.0.4",
+    "@types/yup": "^0.26.3",
+    "formik": "^1.4.1",
+    "react-albus": "^2.0.0",
+    "rimraf": "^2.6.2",
+    "typescript": "^3.2.2",
+    "yup": "^0.26.6"
+  },
+  "peerDependencies": {
+    "formik": "^1.4.1",
+    "react": "^16.6.3",
+    "react-albus": "^2.0.0",
+    "yup": "^0.26.6"
+  }
+}
