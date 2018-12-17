@@ -23,6 +23,7 @@ export interface WizardActions {
   currentStep: Step["id"],
   isLastStep: boolean,
   isSubmitting: boolean,
+  actionLabel?: string,
 }
 
 export interface WrapperProps {
