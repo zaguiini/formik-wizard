@@ -106,11 +106,24 @@ class FormikWizard extends React.PureComponent<
               info: {
                 canGoBack: wizard.step.id !== wizard.steps[0].id,
                 goToPreviousStep: () => {
-                  wizard.previous()
+                  if (step.keepValues) {
+                    this.setState(
+                      ({ values }) => ({
+                        values: {
+                          ...values,
+                          [step.id]: formikProps.values,
+                        },
+                        status: undefined,
+                      }),
+                      () => wizard.previous()
+                    )
+                  } else {
+                    wizard.previous()
 
-                  this.setState({
-                    status: undefined,
-                  })
+                    this.setState({
+                      status: undefined,
+                    })
+                  }
                 },
 
                 currentStep: wizard.step.id,
