@@ -15,6 +15,15 @@ import {
 } from './types'
 import { getInitialValues } from './helpers'
 
+const FormikWizardContext = React.createContext<FormikWizardState>({
+  status: undefined,
+  values: {},
+})
+
+export function useFormikWizard() {
+  return React.useContext(FormikWizardContext)
+}
+
 class FormikWizard extends React.PureComponent<
   FormikWizardProps,
   FormikWizardState
@@ -153,9 +162,11 @@ class FormikWizard extends React.PureComponent<
 
   render() {
     return (
-      <BaseWizard>
-        <AlbusSteps>{this.props.steps.map(this.renderStep)}</AlbusSteps>
-      </BaseWizard>
+      <FormikWizardContext.Provider value={this.state}>
+        <BaseWizard>
+          <AlbusSteps>{this.props.steps.map(this.renderStep)}</AlbusSteps>
+        </BaseWizard>
+      </FormikWizardContext.Provider>
     )
   }
 }
