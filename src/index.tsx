@@ -20,8 +20,13 @@ const FormikWizardContext = React.createContext<FormikWizardState>({
   values: {},
 })
 
-export function useFormikWizard() {
-  return React.useContext(FormikWizardContext)
+interface FormikWizardContext<V> {
+  status: any
+  values: V
+}
+
+export function useFormikWizard<V>() {
+  return React.useContext(FormikWizardContext) as FormikWizardContext<V>
 }
 
 class FormikWizard extends React.PureComponent<
