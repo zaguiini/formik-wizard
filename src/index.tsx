@@ -5,7 +5,8 @@ import {
   Step as AlbusStep,
   WizardContext,
 } from 'react-albus'
-import { Formik, FormikActions } from 'formik'
+import { Formik, FormikActions, getIn } from 'formik'
+import { produce } from 'immer'
 import {
   FormikWizardProps,
   FormikWizardState,
@@ -15,18 +16,21 @@ import {
 } from './types'
 import { getInitialValues } from './helpers'
 
-const FormikWizardContext = React.createContext<FormikWizardState>({
-  status: undefined,
-  values: {},
-})
-
-interface FormikWizardContext<V> {
+interface FormikWizardContextInterface<V> {
   status: any
   values: V
+  setFormValue: (key: string, value: any) => void
+  wizard: WizardContext
 }
 
+const FormikWizardContext = React.createContext<FormikWizardContextInterface<
+  any
+> | null>(null)
+
 export function useFormikWizard<V>() {
-  return React.useContext(FormikWizardContext) as FormikWizardContext<V>
+  return React.useContext(FormikWizardContext) as FormikWizardContextInterface<
+    V
+  >
 }
 
 class FormikWizard extends React.PureComponent<
@@ -102,7 +106,41 @@ class FormikWizard extends React.PureComponent<
     }
   }
 
+  setFormValue = (key: string, value: any) => {
+    this.setState(state =>
+      produce(state, draft => {
+        const path = key.split('.')
+        const placeToUpdate = path.pop()!
+        const finalPath = path.join('.')
+
+        const place = getIn(draft.values, finalPath)
+        place[placeToUpdate] = value
+      })
+    )
+  }
+
   renderStepComponent(step: Step, wizard: WizardContext) {
+    const info = {
+      canGoBack: wizard.step.id !== wizard.steps[0].id,
+      goToPreviousStep: () => {
+        wizard.previous()
+
+        this.setState({
+          status: undefined,
+        })
+      },
+
+      currentStep: wizard.step.id,
+      actionLabel: step.actionLabel,
+      steps: wizard.steps.map(step => step.id),
+      isLastStep: wizard.step.id === wizard.steps[wizard.steps.length - 1].id,
+      wizard,
+    }
+
+    const FormElement = this.props.Form || 'form'
+    const Element = this.props.render
+    const Step = step.component
+
     return (
       <Formik
         {...this.props.formikProps}
@@ -111,46 +149,13 @@ class FormikWizard extends React.PureComponent<
         onSubmit={(stepValues, stepFormActions) => {
           this.handleSubmit(stepValues, stepFormActions, wizard, step.onAction)
         }}
-        render={formikProps =>
-          React.createElement(this.props.Form || 'form', {
-            onSubmit: formikProps.handleSubmit,
-            children: React.createElement(this.props.render, {
-              ...this.state,
-              Step: step.component,
-              info: {
-                canGoBack: wizard.step.id !== wizard.steps[0].id,
-                goToPreviousStep: () => {
-                  if (step.keepValues) {
-                    this.setState(
-                      ({ values }) => ({
-                        values: {
-                          ...values,
-                          [step.id]: formikProps.values,
-                        },
-                        status: undefined,
-                      }),
-                      () => wizard.previous()
-                    )
-                  } else {
-                    wizard.previous()
-
-                    this.setState({
-                      status: undefined,
-                    })
-                  }
-                },
-
-                currentStep: wizard.step.id,
-                actionLabel: step.actionLabel,
-                steps: wizard.steps.map(step => step.id),
-                isLastStep:
-                  wizard.step.id === wizard.steps[wizard.steps.length - 1].id,
-                isSubmitting: formikProps.isSubmitting,
-                wizard,
-              },
-            }),
-          })
-        }
+        render={formikProps => (
+          <FormElement onSubmit={formikProps.handleSubmit}>
+            <Element info={info} {...this.state}>
+              <Step />
+            </Element>
+          </FormElement>
+        )}
       />
     )
   }
@@ -167,11 +172,19 @@ class FormikWizard extends React.PureComponent<
 
   render() {
     return (
-      <FormikWizardContext.Provider value={this.state}>
-        <BaseWizard>
-          <AlbusSteps>{this.props.steps.map(this.renderStep)}</AlbusSteps>
-        </BaseWizard>
-      </FormikWizardContext.Provider>
+      <BaseWizard
+        render={wizard => (
+          <FormikWizardContext.Provider
+            value={{
+              ...this.state,
+              setFormValue: this.setFormValue,
+              wizard,
+            }}
+          >
+            <AlbusSteps>{this.props.steps.map(this.renderStep)}</AlbusSteps>
+          </FormikWizardContext.Provider>
+        )}
+      />
     )
   }
 }

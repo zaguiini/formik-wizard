@@ -28,14 +28,13 @@ export interface WizardInfo {
   isLastStep: boolean
   steps: string[]
   wizard: WizardContext
-  isSubmitting: boolean
   actionLabel?: string
 }
 
 export interface WrapperProps {
   status?: any
   values: Values
-  Step: Step['component']
+  children: React.ReactNode
   info: WizardInfo
 }
 
