@@ -1,6 +1,6 @@
 {
   "name": "formik-wizard",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "A multi-step form component powered by formik and react-albus",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
