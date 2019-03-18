@@ -43,6 +43,7 @@ class FormikWizard extends React.PureComponent<
     this.state = {
       status: undefined,
       values: getInitialValues(props.steps),
+      isSubmitting: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -57,6 +58,10 @@ class FormikWizard extends React.PureComponent<
     wizard: WizardContext,
     onAction?: WizardOnAction
   ) {
+    this.setState({
+      isSubmitting: true,
+    })
+
     let status = undefined
 
     try {
@@ -71,13 +76,12 @@ class FormikWizard extends React.PureComponent<
       }
     } catch (error) {
       status = error.status
+    } finally {
+      this.setState({
+        status,
+        isSubmitting: false,
+      })
     }
-
-    this.setState({
-      status,
-    })
-
-    stepFormActions.setSubmitting(false)
   }
 
   handleSubmit(
@@ -146,14 +150,13 @@ class FormikWizard extends React.PureComponent<
         {...this.props.formikProps}
         initialValues={this.getStepInitialValues(step, wizard.step.id)}
         validationSchema={step.validationSchema}
-        onSubmit={(stepValues, stepFormActions) => {
+        onSubmit={(stepValues, stepFormActions) =>
           this.handleSubmit(stepValues, stepFormActions, wizard, step.onAction)
-        }}
-        render={({ handleSubmit, ...formProps }) => (
+        }
+        render={({ handleSubmit }) => (
           <FormElement onSubmit={handleSubmit}>
             <Element
-              info={info}
-              formik={{ ...formProps, handleSubmit }}
+              info={{ ...info, isSubmitting: this.state.isSubmitting }}
               {...this.state}
             >
               <Step />

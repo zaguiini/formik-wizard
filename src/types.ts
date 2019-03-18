@@ -29,6 +29,7 @@ export interface WizardInfo {
   steps: string[]
   wizard: WizardContext
   actionLabel?: string
+  isSubmitting: boolean
 }
 
 export interface WrapperProps {
@@ -36,7 +37,6 @@ export interface WrapperProps {
   values: Values
   children: React.ReactNode
   info: WizardInfo
-  formik: FormikProps<Values>
 }
 
 export interface FormikWizardProps {
@@ -50,4 +50,5 @@ export interface FormikWizardProps {
 export interface FormikWizardState {
   status: any
   values: Values
+  isSubmitting: boolean
 }
