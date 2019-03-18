@@ -1,5 +1,5 @@
 import { Schema } from 'yup'
-import { FormikProps } from 'formik'
+import { FormikProps, FormikConfig } from 'formik'
 import { WizardContext } from 'react-albus'
 
 export interface Values {
@@ -36,6 +36,7 @@ export interface WrapperProps {
   values: Values
   children: React.ReactNode
   info: WizardInfo
+  formik: FormikProps<Values>
 }
 
 export interface FormikWizardProps {

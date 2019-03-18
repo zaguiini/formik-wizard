@@ -149,9 +149,13 @@ class FormikWizard extends React.PureComponent<
         onSubmit={(stepValues, stepFormActions) => {
           this.handleSubmit(stepValues, stepFormActions, wizard, step.onAction)
         }}
-        render={formikProps => (
-          <FormElement onSubmit={formikProps.handleSubmit}>
-            <Element info={info} {...this.state}>
+        render={({ handleSubmit, ...formProps }) => (
+          <FormElement onSubmit={handleSubmit}>
+            <Element
+              info={info}
+              formik={{ ...formProps, handleSubmit }}
+              {...this.state}
+            >
               <Step />
             </Element>
           </FormElement>
