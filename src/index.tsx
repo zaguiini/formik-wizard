@@ -20,6 +20,7 @@ interface FormikWizardContextInterface<V> {
   status: any
   values: V
   setFormValue: (key: string, value: any) => void
+  setFormStatus: (status: any) => void
   wizard: WizardContext
 }
 
@@ -123,6 +124,12 @@ class FormikWizard extends React.PureComponent<
     )
   }
 
+  setFormStatus = (status: any) => {
+    this.setState({
+      status,
+    })
+  }
+
   renderStepComponent(step: Step, wizard: WizardContext) {
     const info = {
       canGoBack: wizard.step.id !== wizard.steps[0].id,
@@ -185,6 +192,7 @@ class FormikWizard extends React.PureComponent<
             value={{
               ...this.state,
               setFormValue: this.setFormValue,
+              setFormStatus: this.setFormStatus,
               wizard,
             }}
           >
