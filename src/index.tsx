@@ -53,6 +53,16 @@ class FormikWizard extends React.PureComponent<
     this.renderStepComponent = this.renderStepComponent.bind(this)
   }
 
+  componentDidUpdate(prevProps: FormikWizardProps) {
+    if (prevProps.steps !== this.props.steps) {
+      this.setState({
+        status: undefined,
+        isSubmitting: false,
+        values: getInitialValues(this.props.steps),
+      })
+    }
+  }
+
   async onAction(
     stepValues: Values,
     stepFormActions: FormikActions<Values>,
