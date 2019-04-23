@@ -86,7 +86,7 @@ class FormikWizard extends React.PureComponent<
         wizard.next()
       }
     } catch (error) {
-      status = error.status
+      status = error
     } finally {
       this.setState({
         status,
