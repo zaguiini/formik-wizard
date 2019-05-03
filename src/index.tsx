@@ -57,7 +57,7 @@ function FormikWizardStep({
   const handleSubmit = React.useCallback(
     async (sectionValues) => {
       setStatus(undefined)
-      
+
       let status
 
       try {
