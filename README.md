@@ -25,6 +25,19 @@ Check out the [example](./example) source code and the [typings](./src/types.ts)
 There's a hook called `useFormikWizard` that you can use to read and write sections values and form statuses.
 I recommend using [`immer`](https://github.com/mweststrate/immer) because you're modifying the steps data directly!
 
+## Usage with `react-native`
+
+It's pretty straightforward: just use the `Form` prop component as a `children` forwarder. Example:
+
+```js
+<FormikWizard
+  {...props}
+  Form={({ children }) => children}
+/>
+```
+
+That's needed because there's no `form` web component on React Native and `formik-wizard` (and `formik`) fallsback to it.
+
 ## License
 
 MIT
