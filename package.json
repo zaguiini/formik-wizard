@@ -1,0 +1,46 @@
+{
+  "name": "formik-wizard",
+  "version": "3.0.0",
+  "main": "dist/index.js",
+  "description": "A multi-step form component powered by formik and react-albus",
+  "umd:main": "dist/formik-wizard.umd.production.js",
+  "module": "dist/formik-wizard.es.production.js",
+  "typings": "dist/index.d.ts",
+  "repository": "https://github.com/zaguiini/formik-wizard",
+  "author": "Luis Felipe Zaguini",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsdx watch",
+    "prebuild": "rimraf dist/",
+    "build": "tsdx build",
+    "test": "tsdx test --env=jsdom",
+    "prepublish": "yarn build"
+  },
+  "peerDependencies": {
+    "formik": "^2.0.1-alpha.2",
+    "react": "^16.8.3",
+    "react-albus": "^2.0.0",
+    "yup": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.12",
+    "@types/react": "^16.8.15",
+    "@types/react-albus": "^2.0.5",
+    "@types/react-dom": "^16.8.4",
+    "@types/yup": "^0.26.13",
+    "prettier": "^1.17.0",
+    "react": "^16.8.3",
+    "react-albus": "^2.0.0",
+    "formik": "^2.0.1-alpha.2",
+    "tsdx": "^0.5.5",
+    "typescript": "^3.4.5",
+    "yup": "^0.27.0",
+    "rimraf": "^2.6.3"
+  },
+  "dependencies": {
+    "immer": "^2.1.3"
+  }
+}
