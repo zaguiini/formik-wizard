@@ -1,28 +1,28 @@
 {
   "/Users/zaguini/Development/formik-wizard/dist/formik-wizard.cjs.development.js": {
-    "bundled": 4364,
-    "minified": 2338,
-    "gzipped": 953
+    "bundled": 4395,
+    "minified": 2348,
+    "gzipped": 956
   },
   "/Users/zaguini/Development/formik-wizard/dist/formik-wizard.cjs.production.js": {
-    "bundled": 4364,
-    "minified": 2338,
-    "gzipped": 953
+    "bundled": 4395,
+    "minified": 2348,
+    "gzipped": 956
   },
   "/Users/zaguini/Development/formik-wizard/dist/formik-wizard.umd.development.js": {
-    "bundled": 4938,
-    "minified": 2235,
-    "gzipped": 1019
+    "bundled": 4971,
+    "minified": 2245,
+    "gzipped": 1020
   },
   "/Users/zaguini/Development/formik-wizard/dist/formik-wizard.umd.production.js": {
-    "bundled": 4938,
-    "minified": 2235,
-    "gzipped": 1019
+    "bundled": 4971,
+    "minified": 2245,
+    "gzipped": 1020
   },
   "/Users/zaguini/Development/formik-wizard/dist/formik-wizard.es.production.js": {
-    "bundled": 4155,
-    "minified": 2159,
-    "gzipped": 892,
+    "bundled": 4186,
+    "minified": 2169,
+    "gzipped": 896,
     "treeshaked": {
       "rollup": {
         "code": 92,
