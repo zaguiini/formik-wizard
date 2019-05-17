@@ -36,7 +36,29 @@ It's pretty straightforward: just use the `Form` prop component as a `children` 
 />
 ```
 
-That's needed because there's no `form` web component on React Native and `formik-wizard` (and `formik`) fallsback to it.
+That's needed because there's no `form` web component on React Native and `formik-wizard` (and `formik`) fallbacks to it.
+
+## FAQ
+
+### How do you use setStatus, setSubmitting inside `handleSubmit` function?
+
+The `onSubmit` function expects a `Promise`. Whatever you return from that `Promise` will be set as the status. For example:
+
+```js
+import { useCallback } from 'react'
+
+const handleSubmit = useCallback((values) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        message: "success"
+      })
+    }, 5000)
+  })
+}, [])
+```
+
+While that `Promise` is pending, the `isSubmitting` flag is set to `true`. The status is set automatically from the return of that `Promise`.
 
 ## License
 

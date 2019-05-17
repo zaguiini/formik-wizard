@@ -42,7 +42,7 @@ export interface FormikWizardWrapperProps<Values, Status = any>
 export interface FormikWizardProps<Values, Status = any> {
   steps: FormikWizardStepType[]
   render: React.SFC<FormikWizardWrapperProps<Values, Status>>
-  onSubmit: (values: Values) => void
+  onSubmit: (values: Values) => void | Promise<void>
   formikProps?: Partial<FormikProps<Values>>
   albusProps?: Partial<WizardProps>
   Form?: any
