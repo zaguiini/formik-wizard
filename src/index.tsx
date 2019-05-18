@@ -73,7 +73,7 @@ function FormikWizardStep({
             ? await step.onAction(sectionValues, values)
             : undefined
 
-          setValues((values) => {
+          setValues((values: any) => {
             return produce(values, (draft) => {
               draft[info.currentStep] = sectionValues
             })
@@ -118,7 +118,7 @@ function FormikWizardStep({
               setStatus(undefined)
 
               if (step.keepValuesOnPrevious) {
-                setValues((values) =>
+                setValues((values: any) =>
                   produce(values, (draft) => {
                     draft[step.id] = props.values
                   })

@@ -2,9 +2,7 @@ import { FormikProps } from 'formik'
 import { WizardContext, WizardProps } from 'react-albus'
 import { Schema } from 'yup'
 
-export interface FormikWizardBaseValues {
-  [key: string]: any
-}
+export type FormikWizardBaseValues = any
 
 export interface FormikWizardContextValue<V = any, S = any> {
   status: S
