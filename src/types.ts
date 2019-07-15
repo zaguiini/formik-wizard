@@ -1,4 +1,4 @@
-import { FormikProps } from 'formik'
+import { FormikProps, FormikErrors } from 'formik'
 import { WizardContext, WizardProps } from 'react-albus'
 import { Schema } from 'yup'
 
@@ -15,6 +15,7 @@ export interface FormikWizardStepType {
   id: string
   component: React.SFC<{}>
   validationSchema?: Schema<any>
+  validate?: (values: any) => void | object | Promise<FormikErrors<any>>,
   initialValues?: FormikWizardBaseValues
   actionLabel?: string
   onAction?: (

@@ -105,6 +105,7 @@ function FormikWizardStep({
       enableReinitialize
       initialValues={step.initialValues}
       validationSchema={step.validationSchema}
+      validate={step.validate}
       onSubmit={handleSubmit}
       render={(props) => (
         <Form onSubmit={props.handleSubmit}>
