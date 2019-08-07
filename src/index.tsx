@@ -133,7 +133,7 @@ function FormikWizardStep({
             setStatus={status}
             setValues={setValues}
           >
-            {React.createElement(step.component)}
+            {React.createElement(step.component, props)}
           </FormWrapper>
         </Form>
       )}
