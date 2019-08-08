@@ -60,6 +60,19 @@ const handleSubmit = useCallback((values) => {
 
 While that `Promise` is pending, the `isSubmitting` flag is set to `true`. The status is set automatically from the return of that `Promise`.
 
+### How do you access the Formik context inside the step form (e.g. for conditional rendering)?
+
+The step form is wrapped inside a [`Formik
+component`](https://jaredpalmer.com/formik/docs/api/formik) but his props
+aren't propagated to the form component. Anyway, you still have access to the
+Formik context through one of these methods:
+
+* by using the [`connect
+  HOC`](https://jaredpalmer.com/formik/docs/api/connect).
+* by using the [`Field
+  component`](https://jaredpalmer.com/formik/docs/api/field) with a render prop
+  or a callback function as children.
+
 ## License
 
 MIT
