@@ -63,8 +63,8 @@ While that `Promise` is pending, the `isSubmitting` flag is set to `true`. The s
 ### How do you access the Formik context inside the step form (e.g. for conditional rendering)?
 
 The step form is wrapped inside a [`Formik
-component`](https://jaredpalmer.com/formik/docs/api/formik) but his props
-aren't propagated to the form component. Anyway, you still have access to the
+component`](https://jaredpalmer.com/formik/docs/api/formik) but its props
+aren't propagated to the form component. Anyway, you'll still have access to the
 Formik context through one of these methods:
 
 * by using the [`connect
