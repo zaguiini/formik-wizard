@@ -72,6 +72,7 @@ Formik context through one of these methods:
 * by using the [`Field
   component`](https://jaredpalmer.com/formik/docs/api/field) with a render prop
   or a callback function as children.
+* by using the `useFormikContext` hook (available in Formik's v2).
 
 ## License
 
