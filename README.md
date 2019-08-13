@@ -38,7 +38,33 @@ It's pretty straightforward: just use the `Form` prop component as a `children` 
 
 That's needed because there's no `form` web component on React Native and `formik-wizard` (and `formik`) fallbacks to it.
 
-## FAQ
+## Troubleshooting
+
+### I can't use it as the default export
+
+That's a known issue. Jared palmer's tsdx [don't handle default exports very well](https://github.com/palmerhq/tsdx/issues/165). Two options:
+
+### Use it as `FormikWizard.default`
+
+```js
+import FormikWizard from 'formik-wizard'
+
+function App() {
+  return <FormikWizard.default />
+}
+```
+
+or...
+
+### Use the named export
+
+```js
+import { FormikWizard } from 'formik-wizard'
+
+function App() {
+  return <FormikWizard />
+}
+```
 
 ### How do you use setStatus, setSubmitting inside `handleSubmit` function?
 
