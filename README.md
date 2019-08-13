@@ -42,7 +42,7 @@ That's needed because there's no `form` web component on React Native and `formi
 
 ### I can't use it as the default export
 
-That's a known issue. Jared palmer's tsdx [don't handle default exports very well](https://github.com/palmerhq/tsdx/issues/165). Two options:
+That's a known issue. Jared palmer's tsdx [doesn't handle default exports very well](https://github.com/palmerhq/tsdx/issues/165). Two options:
 
 #### Use it as `FormikWizard.default`
 
