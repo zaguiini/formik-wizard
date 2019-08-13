@@ -141,7 +141,7 @@ function FormikWizardStep({
   )
 }
 
-function FormikWizard<T>({
+export function FormikWizard<T>({
   formikProps,
   albusProps,
   onSubmit,
