@@ -107,7 +107,8 @@ function FormikWizardStep({
       validationSchema={step.validationSchema}
       validate={step.validate}
       onSubmit={handleSubmit}
-      render={(props) => (
+    >
+      {(props) => (
         <Form onSubmit={props.handleSubmit}>
           <FormWrapper
             {...info}
@@ -137,7 +138,7 @@ function FormikWizardStep({
           </FormWrapper>
         </Form>
       )}
-    />
+    </Formik>
   )
 }
 
