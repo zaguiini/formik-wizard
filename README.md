@@ -38,6 +38,8 @@ It's pretty straightforward: just use the `Form` prop component as a `children` 
 
 That's needed because there's no `form` web component on React Native and `formik-wizard` (and `formik`) fallbacks to it.
 
+Also, React Native doesn't have submit button. To simulate, grab formik's context and fire the submit handler.
+
 ## Troubleshooting
 
 ### I can't use it as the default export
