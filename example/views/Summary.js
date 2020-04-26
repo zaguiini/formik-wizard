@@ -1,7 +1,7 @@
 import { useFormikWizard } from 'formik-wizard'
 import React from 'react'
 
-function CompanyInfo() {
+function Summary() {
   const { values } = useFormikWizard()
 
   return (
@@ -13,4 +13,4 @@ function CompanyInfo() {
   )
 }
 
-export default CompanyInfo
+export default Summary
