@@ -1,5 +1,7 @@
 **THIS LIBRARY IS LOOKING FOR MAINTAINERS. I (LUIS FELIPE ZAGUINI) DON'T HAVE ENOUGH BANDWIDTH ANYMORE TO WORK ON OSS. IF YOU ARE INTERESTED, PLEASE CONTACT ME: `luisfelipezaguini [at] gmail [dot] com`**
 
+Also, we're in the process of making this library way more flexible, allowing people to use whatever form and wizard library they like. [Please read this issue](https://github.com/zaguiini/formik-wizard/issues/39) and comment if you will to contribute.
+
 ---
 
 # formik-wizard
