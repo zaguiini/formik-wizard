@@ -1,3 +1,7 @@
+**THIS LIBRARY IS LOOKING FOR MAINTAINERS. I (LUIS FELIPE ZAGUINI) DON'T HAVE ENOUGH BANDWIDTH ANYMORE TO WORK ON OSS. IF YOU ARE INTERESTED, PLEASE CONTACT ME: `luisfelipezaguini [at] gmail [dot] com`**
+
+---
+
 # formik-wizard
 
 A multi-step form component powered by [`formik`](https://github.com/jaredpalmer/formik) and [`react-albus`](https://github.com/americanexpress/react-albus).
