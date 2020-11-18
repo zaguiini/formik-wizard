@@ -1,10 +1,10 @@
 import { Form as DefaultForm, Formik, FormikProps } from 'formik'
 import produce from 'immer'
 import React from 'react'
-import { Step as AlbusStep, Steps as AlbusSteps, Wizard as AlbusWizard, WizardContext } from 'react-albus'
+import StepWizard, { StepWizardChildProps } from 'react-step-wizard'
 
 import {
-  FormikWizardBaseValues,
+  AnyFormValue,
   FormikWizardContextValue,
   FormikWizardProps,
   FormikWizardStepType,
@@ -12,7 +12,7 @@ import {
 } from './types'
 
 function getInitialValues(steps: FormikWizardStepType[]) {
-  return steps.reduce<FormikWizardBaseValues>((curr, next) => {
+  return steps.reduce<AnyFormValue>((curr, next) => {
     curr[next.id] = next.initialValues
     return curr
   }, {})
@@ -23,14 +23,14 @@ const FormikWizardContext = React.createContext<FormikWizardContextValue | null>
 )
 
 interface FormikWizardStepProps
-  extends FormikWizardContextValue<FormikWizardBaseValues, any> {
+  extends FormikWizardContextValue<AnyFormValue, any> {
   step: FormikWizardStepType
   Form?: any
   steps: string[]
   FormWrapper: React.SFC<FormikWizardWrapperProps<any>>
-  wizard: WizardContext
   formikProps?: Partial<FormikProps<any>>
   onSubmit: FormikWizardProps<any>['onSubmit']
+  childWizardProps: StepWizardChildProps
 }
 
 function FormikWizardStep({
@@ -38,8 +38,8 @@ function FormikWizardStep({
   Form = DefaultForm,
   FormWrapper,
   steps,
-  wizard,
   formikProps,
+  childWizardProps,
   onSubmit,
   setStatus,
   status,
@@ -79,7 +79,7 @@ function FormikWizardStep({
             })
           })
 
-          setImmediate(wizard.next)
+          setImmediate(childWizardProps.nextStep)
         }
       } catch (e) {
         status = e
@@ -95,7 +95,7 @@ function FormikWizardStep({
       setValues,
       step,
       values,
-      wizard.next,
+      childWizardProps.nextStep,
     ]
   )
 
@@ -113,7 +113,7 @@ function FormikWizardStep({
           <FormWrapper
             {...info}
             steps={steps}
-            wizard={wizard}
+            childWizardProps={childWizardProps}
             actionLabel={step.actionLabel}
             isSubmitting={props.isSubmitting}
             goToPreviousStep={() => {
@@ -127,7 +127,7 @@ function FormikWizardStep({
                 )
               }
 
-              wizard.previous()
+              childWizardProps.previousStep()
             }}
             status={status}
             values={values}
@@ -144,7 +144,7 @@ function FormikWizardStep({
 
 export function FormikWizard<T>({
   formikProps,
-  albusProps,
+  wizardProps: userWizardProps,
   onSubmit,
   steps,
   Form,
@@ -160,44 +160,67 @@ export function FormikWizard<T>({
 
   const stepIds = React.useMemo(() => steps.map((step) => step.id), [steps])
 
-  return (
-    <AlbusWizard {...albusProps}>
-      <FormikWizardContext.Provider
-        value={{
-          status,
-          setStatus,
-          values,
-          setValues,
+  const topLevelWizardProps = Object.assign(
+    {
+      transitions: {
+        enterRight: '',
+        enterLeft: '',
+        exitRight: '',
+        exitLeft: '',
+      },
+    },
+    userWizardProps
+  )
+
+  function StepRenderer({
+    i,
+    ...childWizardProps
+  }: StepWizardChildProps & { i: number }) {
+    const step = steps[i]
+
+    return (
+      <FormikWizardStep
+        formikProps={formikProps}
+        childWizardProps={childWizardProps}
+        onSubmit={onSubmit}
+        steps={stepIds}
+        status={status}
+        values={values}
+        setValues={setValues}
+        setStatus={setStatus}
+        step={{
+          ...step,
+          initialValues: values[step.id] || {},
         }}
-      >
-        <AlbusSteps>
-          {steps.map((step) => (
-            <AlbusStep
-              key={step.id}
-              id={step.id}
-              render={(wizard) => (
-                <FormikWizardStep
-                  wizard={wizard}
-                  formikProps={formikProps}
-                  onSubmit={onSubmit}
-                  steps={stepIds}
-                  status={status}
-                  values={values}
-                  setValues={setValues}
-                  setStatus={setStatus}
-                  step={{
-                    ...step,
-                    initialValues: values[step.id] || {},
-                  }}
-                  Form={Form}
-                  FormWrapper={render}
-                />
-              )}
-            />
-          ))}
-        </AlbusSteps>
-      </FormikWizardContext.Provider>
-    </AlbusWizard>
+        Form={Form}
+        FormWrapper={render}
+      />
+    )
+  }
+
+  // react-step-wizard expects children as arrays
+  // https://github.com/jcmcneal/react-step-wizard/blob/6ee7978ccc08021c7e2ca54d9d77a6de3b992117/src/index.js#L179
+  const renderSteps = () => {
+    return steps.map((_, i) => {
+      return React.createElement(StepRenderer, {
+        i,
+        key: i,
+        // other props will be passed down by react-step-wizard on render
+      } as any)
+    })
+  }
+
+  return (
+    <FormikWizardContext.Provider
+      value={{
+        status,
+        setStatus,
+        values,
+        setValues,
+      }}
+    >
+      <StepWizard {...topLevelWizardProps}>{renderSteps()}</StepWizard>
+    </FormikWizardContext.Provider>
   )
 }
 
